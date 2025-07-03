@@ -80,6 +80,3 @@ A Python script to delete files older than a specified number of days (default: 
 ## Notes
 - Use `~/test` to avoid macOS permission issues with `/tmp`. To use `/tmp`, add it to Docker Desktop > Settings > Resources > File Sharing.
 - Future enhancements: Add Telegram notifications or multi-directory support.
-
-## License
-MIT License
