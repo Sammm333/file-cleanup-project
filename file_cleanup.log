@@ -1,0 +1,3 @@
+2025-07-03 09:06:41,900 - INFO - Начало очистки файлов в /Users/samvelkhachatryan/test, старше 30 дней
+2025-07-03 09:06:41,901 - INFO - Удалён файл: /Users/samvelkhachatryan/test/oldfile.txt
+2025-07-03 09:06:41,901 - INFO - Очистка завершена
