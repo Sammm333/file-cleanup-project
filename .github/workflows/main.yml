@@ -1,4 +1,3 @@
-```yaml
 name: File Cleanup Workflow
 
 on:
