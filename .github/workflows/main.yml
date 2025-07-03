@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p test
           touch test/testfile1.txt
-          touch -t 202506010000 test/oldfile.txt  # Old file (June 1, 2025)
+          touch -t 202506010000 test/oldfile.txt
 
       - name: Run cleanup script in Docker
         run: docker run --rm -v $(pwd)/test:/tmp file-cleanup
@@ -48,6 +48,5 @@ jobs:
           fi
 
       - name: Clean up workspace
-        run: rm -rf test file_cleanup.log
         if: always()
-```
+        run: rm -rf test file_cleanup.log
