@@ -1,0 +1,54 @@
+```yaml
+name: File Cleanup Workflow
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t file-cleanup .
+
+      - name: Create test files
+        run: |
+          mkdir -p test
+          touch test/testfile1.txt
+          touch -t 202506010000 test/oldfile.txt  # Old file (June 1, 2025)
+
+      - name: Run cleanup script in Docker
+        run: docker run --rm -v $(pwd)/test:/tmp file-cleanup
+
+      - name: Verify results
+        run: |
+          if [ -f test/oldfile.txt ]; then
+            echo "Error: oldfile.txt was not deleted"
+            exit 1
+          fi
+          if [ ! -f test/testfile1.txt ]; then
+            echo "Error: testfile1.txt was deleted"
+            exit 1
+          fi
+          if [ -f file_cleanup.log ]; then
+            cat file_cleanup.log
+          else
+            echo "Error: file_cleanup.log not found"
+            exit 1
+          fi
+
+      - name: Clean up workspace
+        run: rm -rf test file_cleanup.log
+        if: always()
+```
